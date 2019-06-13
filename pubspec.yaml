@@ -1,0 +1,20 @@
+name: flutter_architecture
+description: A Flutter application about architecture.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.2.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get_it: ^1.0.3+1
+  rxdart: ^0.22.0
+  streaming_shared_preferences: ^1.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
