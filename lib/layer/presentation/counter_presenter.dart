@@ -1,4 +1,4 @@
-import 'package:flutter_architecture/feature/view/counter_view_model.dart';
+import 'package:flutter_architecture/layer/presentation/counter_view_model.dart';
 import 'package:flutter_architecture/injection/injector.dart';
 import 'package:flutter_architecture/layer/domain/usecase/decrement_counter_use_case.dart';
 import 'package:flutter_architecture/layer/domain/usecase/get_counter_use_case.dart';

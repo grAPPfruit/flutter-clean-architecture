@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/feature/view/counter_page.dart';
+import 'package:flutter_architecture/layer/view/counter_page.dart';
 import 'package:flutter_architecture/injection/injector.dart';
 
 Future main() async {

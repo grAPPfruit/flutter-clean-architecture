@@ -1,8 +1,8 @@
+import 'package:flutter_architecture/layer/data/counter_repository_impl.dart';
 import 'package:flutter_architecture/layer/domain/repository/counter_repository.dart';
 import 'package:flutter_architecture/layer/domain/usecase/decrement_counter_use_case.dart';
 import 'package:flutter_architecture/layer/domain/usecase/get_counter_use_case.dart';
 import 'package:flutter_architecture/layer/domain/usecase/increment_counter_use_case.dart';
-import 'package:flutter_architecture/layer/remote/counter_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
