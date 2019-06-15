@@ -1,5 +1,5 @@
-# Flutter Clean Architecture
+# Flutter — Settling the Architecture Discussion Once And For All
 
-A Flutter Application about Architecture.
+This repository is part of a series of articles on Medium about Clean Architecture for Flutter.
 
-Read the full story on [Medium](https://flutter.dev/docs/get-started/codelab): 
+Read the full story on [Medium](https://medium.com/@roland.wimmer/flutter-settling-the-architecture-discussion-once-and-for-all-part-1-the-counter-example-3ca45974c1ff): 
