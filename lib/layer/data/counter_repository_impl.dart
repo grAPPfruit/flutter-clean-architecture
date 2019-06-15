@@ -14,9 +14,11 @@ class CounterRepositoryImpl implements CounterRepository {
 
   @override
   Observable<void> incrementCounter() =>
-      Observable.fromFuture(prefs.setInt(PREF_COUNTER, prefs.getInt(PREF_COUNTER, defaultValue: 0).getValue() + 1));
+      Observable.fromFuture(prefs.setInt(PREF_COUNTER, _currentCounter() + 1));
 
   @override
   Observable<void> decrementCounter() =>
-      Observable.fromFuture(prefs.setInt(PREF_COUNTER, prefs.getInt(PREF_COUNTER, defaultValue: 0).getValue() - 1));
+      Observable.fromFuture(prefs.setInt(PREF_COUNTER, _currentCounter() - 1));
+
+  int _currentCounter() => prefs.getInt(PREF_COUNTER, defaultValue: 0).getValue();
 }

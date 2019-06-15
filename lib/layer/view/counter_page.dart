@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/layer/presentation/counter_presenter.dart';
 import 'package:flutter_architecture/layer/presentation/counter_view_model.dart';
