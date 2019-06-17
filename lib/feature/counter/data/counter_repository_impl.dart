@@ -1,4 +1,4 @@
-import 'package:flutter_architecture/layer/domain/repository/counter_repository.dart';
+import 'package:flutter_architecture/feature/counter/domain/repository/counter_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 

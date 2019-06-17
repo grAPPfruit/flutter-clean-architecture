@@ -1,22 +1,20 @@
-import 'package:flutter_architecture/layer/presentation/counter_view_model.dart';
+import 'package:flutter_architecture/common/presentation/base_presenter.dart';
+import 'package:flutter_architecture/feature/counter/domain/usecase/decrement_counter_use_case.dart';
+import 'package:flutter_architecture/feature/counter/domain/usecase/get_counter_use_case.dart';
+import 'package:flutter_architecture/feature/counter/domain/usecase/increment_counter_use_case.dart';
+import 'package:flutter_architecture/feature/counter/presentation/counter_view_model.dart';
 import 'package:flutter_architecture/injection/injector.dart';
-import 'package:flutter_architecture/layer/domain/usecase/decrement_counter_use_case.dart';
-import 'package:flutter_architecture/layer/domain/usecase/get_counter_use_case.dart';
-import 'package:flutter_architecture/layer/domain/usecase/increment_counter_use_case.dart';
-import 'package:rxdart/rxdart.dart';
 
-class CounterPresenter {
-  final CounterViewModel viewModel;
+class CounterPresenter extends BasePresenter<CounterViewModel> {
   final GetCounterUseCase getCounterUseCase;
   final IncrementCounterUseCase incrementCounterUseCase;
   final DecrementCounterUseCase decrementCounterUseCase;
 
-  final subscriptions = CompositeSubscription();
-
-  CounterPresenter(this.viewModel)
+  CounterPresenter(CounterViewModel viewModel)
       : getCounterUseCase = injector.get<GetCounterUseCase>(),
         incrementCounterUseCase = injector.get<IncrementCounterUseCase>(),
-        decrementCounterUseCase = injector.get<DecrementCounterUseCase>();
+        decrementCounterUseCase = injector.get<DecrementCounterUseCase>(),
+        super(viewModel);
 
   void start() {
     var sub = getCounterUseCase.execute().listen(
@@ -28,10 +26,6 @@ class CounterPresenter {
       },
     );
     subscriptions.add(sub);
-  }
-
-  void stop() {
-    viewModel.dispose();
   }
 
   void onIncrementCounterClicked() {
