@@ -1,65 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/layer/presentation/counter_presenter.dart';
-import 'package:flutter_architecture/layer/presentation/counter_view_model.dart';
+import 'package:flutter_architecture/layer/view/counter_view_model.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
-class CounterPage extends StatefulWidget {
-  @override
-  _CounterPageState createState() {
-    var viewModel = CounterViewModel();
-    var presenter = CounterPresenter(viewModel);
-    return _CounterPageState(viewModel, presenter);
-  }
-}
-
-class _CounterPageState extends State<CounterPage> {
-  final CounterViewModel viewModel;
-  final CounterPresenter presenter;
-
-  _CounterPageState(this.viewModel, this.presenter);
-
-  @override
-  void initState() {
-    super.initState();
-    presenter.start();
-  }
-
+class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Injector(
+      inject: [
+        Inject(() => CounterViewModel()),
+      ],
+      builder: (context, _) {
+        final counterModel = Injector.getAsModel<CounterViewModel>();
+        return _buildScaffold(counterModel);
+      },
+    );
+  }
+
+  Widget _buildScaffold(ModelStatesRebuilder<CounterViewModel> counterModel) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Clean Counter"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            StreamBuilder(
-              stream: viewModel.counter,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                print("repaint counter: ${snapshot?.data}");
-                return Text(
-                  "${snapshot.data}",
-                  style: Theme.of(context).textTheme.display1,
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      body: _buildBody(counterModel),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: presenter.onIncrementCounterClicked,
+            onPressed: () => counterModel.setState((state) => state.increment()),
             tooltip: 'Increment',
             child: Icon(Icons.exposure_plus_1),
           ),
           SizedBox(height: 16),
           FloatingActionButton(
-            onPressed: presenter.onDecrementCounterClicked,
+            onPressed: () => counterModel.setState((state) => state.decrement()),
             tooltip: 'Decrement',
             child: Icon(Icons.exposure_neg_1),
           ),
@@ -68,9 +41,23 @@ class _CounterPageState extends State<CounterPage> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    presenter.stop();
+  Widget _buildBody(ModelStatesRebuilder<CounterViewModel> counterModel) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'You have pushed the button this many times:',
+          ),
+          StreamBuilder(
+            stream: counterModel.snapshot.data.count(),
+            builder: (context, snapshot) => Text(
+              "${snapshot.data}",
+              style: Theme.of(context).textTheme.display1,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
