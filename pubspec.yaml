@@ -8,9 +8,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  bloc: ^1.0.0
+  flutter_bloc: ^1.0.0
   get_it: ^3.0.3
   rxdart: ^0.22.4
-  states_rebuilder: ^1.6.1
   streaming_shared_preferences: ^1.0.1
 
 dev_dependencies:
