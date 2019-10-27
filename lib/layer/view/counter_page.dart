@@ -5,6 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      builder: (context) => CounterBloc(),
+      child: _CounterPageImpl(),
+    );
+  }
+}
+
+class _CounterPageImpl extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
     return Scaffold(
       appBar: AppBar(
@@ -15,13 +25,13 @@ class CounterPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: () => counterBloc.add(CounterEvent.increment),
+            onPressed: () => counterBloc.add(IncrementEvent()),
             tooltip: 'Increment',
             child: Icon(Icons.exposure_plus_1),
           ),
           SizedBox(height: 16),
           FloatingActionButton(
-            onPressed: () => counterBloc.add(CounterEvent.decrement),
+            onPressed: () => counterBloc.add(DecrementEvent()),
             tooltip: 'Decrement',
             child: Icon(Icons.exposure_neg_1),
           ),

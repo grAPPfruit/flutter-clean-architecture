@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/injection/injector.dart';
-import 'package:flutter_architecture/layer/view/counter_bloc.dart';
 import 'package:flutter_architecture/layer/view/counter_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 main() => runApp(MyApp());
 
@@ -32,15 +30,12 @@ class _MyAppState extends State<MyApp> {
     if (!_isInitialized) {
       return Container();
     }
-    return BlocProvider(
-      builder: (context) => CounterBloc(),
-      child: MaterialApp(
-        title: 'Flutter Architecture',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: CounterPage(),
+    return MaterialApp(
+      title: 'Flutter Architecture',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: CounterPage(),
     );
   }
 }
