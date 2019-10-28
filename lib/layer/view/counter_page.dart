@@ -11,7 +11,7 @@ class CounterPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Clean Counter"),
         ),
-        body: _buildBody(context, model),
+        body: _buildBody(context, model, child),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -32,7 +32,7 @@ class CounterPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, CounterViewModel model) {
+  Widget _buildBody(BuildContext context, CounterViewModel model, Widget child) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -46,6 +46,10 @@ class CounterPage extends StatelessWidget {
                   "${model.counterValue}",
                   style: Theme.of(context).textTheme.display1,
                 ),
+          Container(
+            color: Colors.red,
+            child: child,
+          ),
         ],
       ),
     );
