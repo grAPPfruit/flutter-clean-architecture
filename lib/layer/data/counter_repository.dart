@@ -7,7 +7,10 @@ class CounterRepository {
 
   CounterRepository(this.prefs);
 
-  Stream<int> getCounter() => prefs.getInt(PREF_COUNTER, defaultValue: 0);
+  Stream<int> getCounter() {
+    print(">>> getCounter()");
+    return prefs.getInt(PREF_COUNTER, defaultValue: 0);
+  }
 
   Future<void> incrementCounter() => prefs.setInt(PREF_COUNTER, _currentCounter() + 1);
 

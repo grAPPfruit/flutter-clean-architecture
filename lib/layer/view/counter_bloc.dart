@@ -23,7 +23,11 @@ class CounterBloc extends Bloc<CounterEvent, int> {
   final IncrementCounterUseCase _incrementCounterUseCase = injector.get();
   final DecrementCounterUseCase _decrementCounterUseCase = injector.get();
 
-  StreamSubscription _subscription;
+  StreamSubscription _counterSubscription;
+
+  CounterBloc() {
+    _counterSubscription = _getCounterUseCase.execute().listen((value) => add(UpdateEvent(value)));
+  }
 
   @override
   int get initialState => 0;
@@ -32,17 +36,16 @@ class CounterBloc extends Bloc<CounterEvent, int> {
   Stream<int> mapEventToState(CounterEvent event) async* {
     if (event is DecrementEvent) {
       await _decrementCounterUseCase.execute();
-      _dispatchUpdate();
     } else if (event is IncrementEvent) {
       await _incrementCounterUseCase.execute();
-      _dispatchUpdate();
     } else if (event is UpdateEvent) {
       yield event.value;
     }
   }
 
-  void _dispatchUpdate() {
-    _subscription?.cancel();
-    _subscription = _getCounterUseCase.execute().listen((value) => add(UpdateEvent(value)));
+  @override
+  void close() {
+    _counterSubscription.cancel();
+    super.close();
   }
 }
