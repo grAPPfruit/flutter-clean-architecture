@@ -5,6 +5,7 @@ import 'package:flutter_architecture/injection/injector.dart';
 import 'package:flutter_architecture/layer/domain/usecase/decrement_counter_use_case.dart';
 import 'package:flutter_architecture/layer/domain/usecase/get_counter_use_case.dart';
 import 'package:flutter_architecture/layer/domain/usecase/increment_counter_use_case.dart';
+import 'package:sealed_flutter_bloc/sealed_flutter_bloc.dart';
 
 abstract class CounterEvent {}
 
@@ -18,7 +19,25 @@ class UpdateEvent extends CounterEvent {
   UpdateEvent(this.value);
 }
 
-class CounterBloc extends Bloc<CounterEvent, int> {
+class Initial {}
+
+class Success {
+  final int value;
+
+  Success(this.value);
+}
+
+class CounterState extends Union2Impl<Initial, Success> {
+  static final unions = const Doublet<Initial, Success>();
+
+  CounterState._(Union2<Initial, Success> union) : super(union);
+
+  factory CounterState.initial() => CounterState._(unions.first(Initial()));
+
+  factory CounterState.success(int value) => CounterState._(unions.second(Success(value)));
+}
+
+class CounterBloc extends Bloc<CounterEvent, CounterState> {
   final GetCounterUseCase _getCounterUseCase = injector.get();
   final IncrementCounterUseCase _incrementCounterUseCase = injector.get();
   final DecrementCounterUseCase _decrementCounterUseCase = injector.get();
@@ -30,16 +49,16 @@ class CounterBloc extends Bloc<CounterEvent, int> {
   }
 
   @override
-  int get initialState => 0;
+  CounterState get initialState => CounterState.initial();
 
   @override
-  Stream<int> mapEventToState(CounterEvent event) async* {
+  Stream<CounterState> mapEventToState(CounterEvent event) async* {
     if (event is DecrementEvent) {
       await _decrementCounterUseCase.execute();
     } else if (event is IncrementEvent) {
       await _incrementCounterUseCase.execute();
     } else if (event is UpdateEvent) {
-      yield event.value;
+      yield CounterState.success(event.value);
     }
   }
 

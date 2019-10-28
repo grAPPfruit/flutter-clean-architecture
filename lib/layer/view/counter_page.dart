@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/layer/view/counter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sealed_flutter_bloc/sealed_flutter_bloc.dart';
 
 class CounterPage extends StatelessWidget {
   @override
@@ -48,14 +49,14 @@ class _CounterPageImpl extends StatelessWidget {
           Text(
             'You have pushed the button this many times:',
           ),
-          BlocBuilder(
-            bloc: counterBloc,
-            builder: (context, count) {
-              return Text(
-                "$count",
+          SealedBlocBuilder2<CounterBloc, CounterState, Initial, Success>(
+            builder: (context, states) => states(
+              (inital) => CircularProgressIndicator(),
+              (success) => Text(
+                "${success.value}",
                 style: Theme.of(context).textTheme.display1,
-              );
-            },
+              ),
+            ),
           )
         ],
       ),
