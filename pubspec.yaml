@@ -8,9 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  bloc: ^1.0.0
-  flutter_bloc: ^1.0.0
   get_it: ^3.0.3
+  provider: ^3.1.0+1
   rxdart: ^0.22.4
   sealed_flutter_bloc: ^1.0.0
   sealed_unions: ^3.0.2+2

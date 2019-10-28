@@ -1,47 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/layer/view/counter_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sealed_flutter_bloc/sealed_flutter_bloc.dart';
+import 'package:flutter_architecture/common/base_view.dart';
+import 'package:flutter_architecture/common/base_view_state.dart';
+import 'package:flutter_architecture/layer/view/counter_view_model.dart';
 
 class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      builder: (context) => CounterBloc(),
-      child: _CounterPageImpl(),
-    );
-  }
-}
-
-class _CounterPageImpl extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Clean Counter"),
-      ),
-      body: _buildBody(counterBloc),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            onPressed: () => counterBloc.add(IncrementEvent()),
-            tooltip: 'Increment',
-            child: Icon(Icons.exposure_plus_1),
-          ),
-          SizedBox(height: 16),
-          FloatingActionButton(
-            onPressed: () => counterBloc.add(DecrementEvent()),
-            tooltip: 'Decrement',
-            child: Icon(Icons.exposure_neg_1),
-          ),
-        ],
+    return BaseView<CounterViewModel>(
+      builder: (context, model, child) => Scaffold(
+        appBar: AppBar(
+          title: Text("Clean Counter"),
+        ),
+        body: _buildBody(context, model),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: () => model.increment(),
+              tooltip: 'Increment',
+              child: Icon(Icons.exposure_plus_1),
+            ),
+            SizedBox(height: 16),
+            FloatingActionButton(
+              onPressed: () => model.decrement(),
+              tooltip: 'Decrement',
+              child: Icon(Icons.exposure_neg_1),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildBody(CounterBloc counterBloc) {
+  Widget _buildBody(BuildContext context, CounterViewModel model) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -49,15 +40,12 @@ class _CounterPageImpl extends StatelessWidget {
           Text(
             'You have pushed the button this many times:',
           ),
-          SealedBlocBuilder2<CounterBloc, CounterState, Initial, Success>(
-            builder: (context, states) => states(
-              (inital) => CircularProgressIndicator(),
-              (success) => Text(
-                "${success.value}",
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-          )
+          model.state == BaseViewState.Busy
+              ? CircularProgressIndicator()
+              : Text(
+                  "${model.counterValue}",
+                  style: Theme.of(context).textTheme.display1,
+                ),
         ],
       ),
     );
