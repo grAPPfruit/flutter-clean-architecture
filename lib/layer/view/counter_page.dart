@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/common/base_view.dart';
-import 'package:flutter_architecture/common/base_view_state.dart';
+import 'package:flutter_architecture/common/view_model_provider.dart';
+import 'package:flutter_architecture/common/view_state.dart';
 import 'package:flutter_architecture/layer/view/counter_view_model.dart';
 
 class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BaseView<CounterViewModel>(
+    return ViewModelProvider<CounterViewModel>(
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           title: Text("Clean Counter"),
@@ -40,7 +40,7 @@ class CounterPage extends StatelessWidget {
           Text(
             'You have pushed the button this many times:',
           ),
-          model.state == BaseViewState.Busy
+          model.state == ViewState.Busy
               ? CircularProgressIndicator()
               : Text(
                   "${model.counterValue}",

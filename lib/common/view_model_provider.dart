@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/common/base_view_model.dart';
-import 'package:flutter_architecture/injection/injector.dart';
+import 'package:flutter_architecture/common/view_model.dart';
+import 'package:flutter_architecture/di/locator.dart';
 import 'package:provider/provider.dart';
 
-class BaseView<T extends BaseViewModel> extends StatefulWidget {
+class ViewModelProvider<T extends ViewModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;
   final Function(T) onModelReady;
   final Widget child;
 
-  BaseView({this.builder, this.onModelReady, this.child});
+  ViewModelProvider({this.builder, this.onModelReady, this.child});
 
   @override
-  _BaseViewState<T> createState() => _BaseViewState<T>();
+  _ViewModelProviderState<T> createState() => _ViewModelProviderState<T>();
 }
 
-class _BaseViewState<T extends BaseViewModel> extends State<BaseView<T>> {
+class _ViewModelProviderState<T extends ViewModel> extends State<ViewModelProvider<T>> {
   T model = locator<T>();
 
   @override

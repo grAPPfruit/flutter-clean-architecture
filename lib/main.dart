@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/injection/injector.dart';
 import 'package:flutter_architecture/layer/view/counter_page.dart';
+
+import 'di/locator.dart';
 
 main() => runApp(MyApp());
 

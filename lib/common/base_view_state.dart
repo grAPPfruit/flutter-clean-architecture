@@ -1,1 +1,0 @@
-enum BaseViewState { Idle, Busy }
